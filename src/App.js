@@ -1,15 +1,39 @@
-import React, {Fragment} from 'react';
-import React, { useState } from "react";
+import React, {Fragment } from 'react';
+//, useState
 import { ChakraProvider } from '@chakra-ui/react'
+import ToDo from "./components/todo"
+import Form from "./components/Form";
+import FilterButton from "./components/FilterButton";
 import './App.css';
 
-function App() {
+function App(props) {
+  const taskList = props.tasks.map((task) => (
+    <ToDo
+        id={task.id}
+        name={task.name}
+        completed={task.completed}
+        key={task.id}
+      />
+    )
+  );
   return (
-    <ChakraProvider>
-      <Fragment>
-
-      </Fragment>
-    </ChakraProvider>
+    <div className="ToDoapp stack-large">
+      <h1>ToDoMatic</h1>
+      <Form />
+      <div className="filters btn-group stack-exception">
+        <FilterButton />
+        <FilterButton />
+        <FilterButton />
+      </div>
+      <h2 id="list-heading">3 tasks remaining</h2>
+      <ul
+        role="list"
+        className="ToDo-list stack-large stack-exception"
+        aria-labelledby="list-heading"
+      >
+        {taskList}
+      </ul>
+    </div>
   );
 }
 
