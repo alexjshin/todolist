@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 //, useState
-import { ChakraProvider } from '@chakra-ui/react'
 import ToDo from "./components/todo"
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
