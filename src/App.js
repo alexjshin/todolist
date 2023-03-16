@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 //, useState
 import { ChakraProvider } from '@chakra-ui/react'
 import ToDo from "./components/todo"
@@ -14,15 +14,36 @@ function App(props) {
     const newTask = { id: `todo-${nanoid()}`, name, completed: false };
     setTasks([...tasks, newTask]);
   }
-  const taskList = props.tasks.map((task) => (
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTasks);
+  }
+  function toggleTaskCompleted(id) {
+    const updatedTasks = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        // use object spread to make a new object
+        // whose `completed` prop has been inverted
+        return {...task, completed: !task.completed}
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+  
+  const taskList = tasks.map((task) => (
     <ToDo
         id={task.id}
         name={task.name}
         completed={task.completed}
         key={task.id}
+        toggleTaskCompleted = {toggleTaskCompleted}
+        deleteTask = {deleteTask}
       />
     )
   );
+  const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
+  const headingText = `${taskList.length} ${tasksNoun} remaining`;
   return (
     <div className="ToDoapp stack-large">
       <h1>ToDoMatic</h1>
@@ -32,7 +53,7 @@ function App(props) {
         <FilterButton />
         <FilterButton />
       </div>
-      <h2 id="list-heading">3 tasks remaining</h2>
+      <h2 id="list-heading">{headingText}</h2>
       <ul
         role="list"
         className="ToDo-list stack-large stack-exception"
