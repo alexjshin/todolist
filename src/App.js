@@ -54,7 +54,6 @@ function App(props) {
       </div>
       <h2 id="list-heading">{headingText}</h2>
       <ul
-        role="list"
         className="ToDo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
